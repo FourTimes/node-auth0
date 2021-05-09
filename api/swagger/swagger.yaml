@@ -6,16 +6,33 @@ info:
 host: "localhost:4000"
 basePath: "/"
 tags:
+- name: "main"
+  description: "node root path"
 - name: "sales"
   description: "Everything about your sales"
 - name: "details"
-  description: "Access to purchase and sales orders"
+  description: "Everything about your details"
 - name: "purchase"
   description: "Everything about your purchase "
 schemes:
 - "http"
 # - "https"
 paths:
+  /:
+    get:
+      tags:
+        - main
+      summary: ""
+      description: ""
+      operationId: getItemDetailsRoot
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
   /item_details:
     get:
       tags:

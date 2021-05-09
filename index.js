@@ -35,10 +35,10 @@ var jwtConfig = {
 };
 
 var jwtCheck = jwt(jwtConfig);
+app.get("/", (req, res) => res.send("supermarket application designed"));
 
 app.use(jwtCheck);
 
-app.get("/", (req, res) => res.send("supermarket application designed"));
 app.use("/item_purchase", route_item_purchase);
 app.use("/item_sales", route_item_sales);
 app.use("/item_details", route_item_details);
