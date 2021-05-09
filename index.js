@@ -9,8 +9,6 @@ var jwt = require("express-jwt");
 var jwks = require("jwks-rsa");
 
 app.use(express.json());
-app.use(express.urlencoded());
-
 app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(cors());
@@ -24,10 +22,23 @@ const route_item_uploads = require("./routes/route_item_uploads");
 app.use("/public", express.static(__dirname + "/public"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
+var jwtConfig = {
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://jino.auth0.com/.well-known/jwks.json",
+  }),
+  audience: "https://node-js",
+  issuer: "https://jino.auth0.com/",
+  algorithms: ["RS256"],
+};
 
+var jwtCheck = jwt(jwtConfig);
+
+app.use(jwtCheck);
 
 app.get("/", (req, res) => res.send("supermarket application designed"));
-
 app.use("/item_purchase", route_item_purchase);
 app.use("/item_sales", route_item_sales);
 app.use("/item_details", route_item_details);
